@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> DIGITAL CLOCK </title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #121314, #2f3c47);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            flex-direction: column;
+            transition: background 0.3s ease;
+        }
+
+        body.light-theme {
+            background: linear-gradient(135deg, #b5e3fb, #3b59f0);
+        }
+
+        .clock_box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px 60px;
+            text-align: center;
+            color: #ffffff;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease, background 0.3s ease;
+        }
+
+        .clock_box:hover {
+            transform: scale(1.05);
+        }
+
+        .clock_box::before {
+            content: "";
+            background: linear-gradient(60deg, #a8f1db, #9fd9f1, #093e79);
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-size: 300% 300%;
+            animation: rotate 10s linear infinite;
+            z-index: 0;
+            opacity: 0.2;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-theme .clock_box::before {
+            background: linear-gradient(60deg, #2980b9, #34495e, #2c3e50);
+        }
+
+        .clock {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .show_time {
+            display: inline-block;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+            margin: 0 12px;
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .colon {
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+            font-size: 4.5rem;
+            margin: 0 12px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .hi {
+            font-size: 1rem;
+            display: block;
+            margin-top: 5px;
+            color: #f0f0f0;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        .date {
+            margin-top: 25px;
+            font-size: 1.4rem;
+            color: #e0e0e0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+            opacity: 0.85;
+        }
+
+        .toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .toggle:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .quote {
+            margin-top: 20px;
+            font-size: 2.2 rem;
+            color: #f0f0f0;
+            font-family: 'Times New Roman';
+            text-align: center;
+            opacity: 0.7;
+            font-weight: 300;
+            max-width: 80%;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .show_time {
+                font-size: 3rem;
+            }
+
+            .colon {
+                font-size: 3rem;
+            }
+
+            .hi {
+                font-size: 0.8rem;
+            }
+
+            .date {
+                font-size: 1.2rem;
+            }
+
+            .clock_box {
+                padding: 30px 50px;
+            }
+
+            .toggle {
+                top: 10px;
+                right: 10px;
+                width: 35px;
+                height: 35px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .show_time {
+                font-size: 2.5rem;
+            }
+
+            .colon {
+                font-size: 2.5rem;
+            }
+
+            .hi {
+                font-size: 0.7rem;
+            }
+
+            .date {
+                font-size: 1rem;
+            }
+
+            .clock_box {
+                padding: 20px 30px;
+            }
+
+            .quote {
+                font-size: 1rem;
+            }
+
+            .toggle {
+                width: 30px;
+                height: 30px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="light-theme">
+
+    <button class="toggle" onclick="toggleTheme()">🌙</button>
+
+    <div class="clock_box">
+        <div class="clock" id="clock">
+            <div class="show_time" id="hours">00<span class="hi">Hours</span></div>
+            <div class="colon">:</div>
+            <div class="show_time" id="minutes">00<span class="hi">Minutes</span></div>
+            <div class="colon">:</div>
+            <div class="show_time" id="seconds">00<span class="hi">Seconds</span></div>
+            <div class="date" id="date">
+                01 January 2025
+            </div>
+        </div>
+    </div>
+
+    <div class="quote">
+        " DIGITAL CLOCK "
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+            let day = now.getDate();
+            let monthIndex = now.getMonth();
+            let year = now.getFullYear();
+
+            const months = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            day = day < 10 ? '0' + day : day;
+
+            document.getElementById('hours').innerHTML = `${hours}<span class="hi">Hours</span>`;
+            document.getElementById('minutes').innerHTML = `${minutes}<span class="hi">Minutes</span>`;
+            document.getElementById('seconds').innerHTML = `${seconds}<span class="hi">Seconds</span>`;
+            document.getElementById('date').textContent = `${day} ${months[monthIndex]} ${year}`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.toggle');
+
+            body.classList.toggle('dark-theme');
+            body.classList.toggle('light-theme');
+            if (body.classList.contains('dark-theme')) {
+                button.textContent = "🌞";
+            } else {
+                button.textContent = "🌚";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
